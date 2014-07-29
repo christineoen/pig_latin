@@ -1,18 +1,21 @@
 require "pig_latin/version"
 
 module PigLatin
-  def self.translate word
-  alphabet=('a'..'z').to_a
-  vowels=['a','e','i','o','u']
-  consonants= alphabet - vowels
-    if vowels.include?(word[0])
-      return word + "way"
-    elsif consonants.include?(word[0]) && consonants.include?(word[1])
-      return word[2..-1] + word[0..1]+ "ay"
-    elsif consonants.include?(word[0])
-      return word[1..-1] + word[0]+ "ay"
+
+  def self.translate(word)
+    return "That's not a word." if !word.is_a? String
+
+    if /\A[y]/.match(word) == "y"
+      word[1..-1] + "yay"
+    elsif /\A[^a,e,i,o,u]/.match(word) != nil && /\A[^a,e,i,o,u]/.match(word[1..-1]) != nil
+      word[2..-1] + word[0..1] + "ay"
+    elsif /\A[^a,e,i,o,u]/.match(word) != nil
+      word[1..-1] + word[0] + "ay"
+    elsif /\A[^a,e,i,o,u]/.match(word) == nil
+      word + "way"
     else
-      return "That's not a word."     
+      return "Error"
     end
   end
+
 end
